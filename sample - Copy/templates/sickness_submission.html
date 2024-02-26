@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sickness Submission</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Sickness Submission</h1>
+        <form method="post">
+            <label for="sickness_info">Sickness Information:</label>
+            <textarea id="sickness_info" name="sickness_info" rows="4" required></textarea>
+            <br>
+            <button type="submit">Submit Sickness Information</button>
+        </form>
+        <br>
+        <a href="{{ url_for('dashboard', user_type=user_type) }}">Back to Dashboard</a>
+    </div>
+</body>
+</html>

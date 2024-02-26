@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user_type }} Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif; /* Use Poppins font */
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+            margin: 5px;
+        }
+
+        .connect-button {
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .connect-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ user_type }} Dashboard</h1>
+        <form method="post" id="sicknessForm">
+            <label for="sickness_info">Sickness Information:</label>
+            <textarea id="sickness_info" name="sickness_info" rows="4" required></textarea>
+            <br>
+            <button type="button" onclick="submitSicknessInfo()">Submit Sickness Information</button>
+        </form>
+        <br>
+        <a href="{{ url_for('logout') }}">Logout</a>
+        
+
+        <!-- Display the response from the server asynchronously -->
+        <div id="sicknessResponse"></div>
+
+        <!-- Display the "Connect" button after submitting sickness information -->
+        <button class="connect-button" style="display:none;" onclick="openFramePage()">Connect</button>
+    </div>
+
+    <script>
+        function submitSicknessInfo() {
+            var sicknessInfo = $('#sickness_info').val();
+
+            $.ajax({
+                type: 'POST',
+                url: '/submit_sickness_info',  // Flask route to handle the submission
+                data: { 'sickness_info': sicknessInfo },
+                success: function(response) {
+                    // Display the response from the server
+                    $('#sicknessResponse').html(response.message);
+
+                    // Show the "Connect" button after successful submission
+                    $('.connect-button').show();
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>

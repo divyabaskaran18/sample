@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user_type }} Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', Arial, sans-serif; /* Use Poppins font first, fallback to Arial, sans-serif */
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 36px;
+            color: #333;
+        }
+
+        .entry {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+        }
+
+        .entry p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .update-button {
+            padding: 8px 16px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .update-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ user_type }} Dashboard</h1>
+        <br>
+        {% for entry in sickness_entries %}
+            <div class="entry">
+                <p>Username: {{ entry.username }}</p>
+                <p>Sickness Information: {{ entry.sickness_info }}</p>
+                <p>Time: {{ entry.time }}</p>
+                <p>Date: {{ entry.date }}</p>
+
+                <!-- Add a button for each entry -->
+                <button class="update-button" data-username="{{ entry.username }}">Call</button>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        // Attach click event to the update button
+        $('.update-button').on('click', function() {
+            var username = $(this).data('username');
+            
+            // Open the framedoc.html page in a new window or iframe
+            window.open('{{ url_for("framedoc") }}?username=' + username, '_blank');  // Use _blank to open in a new window
+        });
+    </script>
+</body>
+</html>

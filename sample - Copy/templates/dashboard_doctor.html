@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user_type }} Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        // Function to update doctor's dashboard box
+        function updateDoctorDashboard() {
+            $.ajax({
+                type: 'GET',
+                url: '/get_sickness_entries',  // Flask route to handle the update
+                success: function(response) {
+                    // Update the doctor's dashboard box with the response
+                    $('#doctorDashboardBox').html(response);
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        // Periodically update the dashboard every 5 seconds (adjust as needed)
+        setInterval(updateDoctorDashboard, 5000);
+    </script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+
+        #doctorDashboardBox {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        p {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        strong {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ user_type }} Dashboard</h1>
+        <br>
+        <br>
+        <div id="doctorDashboardBox">
+            <!-- Display the sickness form details from the database -->
+            {% for entry in sickness_entries %}
+                <p>
+                    <strong>Username:</strong> {{ entry.username }}<br>
+                    <strong>Sickness Info:</strong> {{ entry.sickness_info }}<br>
+                    <strong>Time:</strong> {{ entry.time }}<br>
+                    <strong>Date:</strong> {{ entry.date }}
+                </p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
